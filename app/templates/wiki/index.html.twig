@@ -114,23 +114,69 @@
             {% endif %}
 
             {% if isOwner and agendaForm is not null %}
-                {# --- FORMULAIRE DE CREATION DE ROUTINE DE CRENEAU (AgendaSlotPattern) --- #}
+                {# --- FORMULAIRE DE CREATION DE ROUTINE DE CRENEAUX (plusieurs jours) --- #}
                 <div class="mt-8 border-t pt-6">
-                    <h2 class="text-xl font-semibold mb-4">Ajouter une routine de créneau</h2>
+                    <h2 class="text-xl font-semibold mb-4">Ajouter une routine de créneaux</h2>
                     {{ form_start(agendaForm) }}
                         <div class="space-y-4">
                             {{ form_row(agendaForm.title) }}
-                            {{ form_row(agendaForm.dayOfWeek) }}
                             {{ form_row(agendaForm.startTime) }}
                             {{ form_row(agendaForm.endTime) }}
-                            {{ form_row(agendaForm.validFrom) }}
-                            {{ form_row(agendaForm.validTo) }}
+                            {{ form_row(agendaForm.daysOfWeek) }}
                             {{ form_row(agendaForm.capacity) }}
                         </div>
                         <button class="mt-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
                             Enregistrer la routine
                         </button>
                     {{ form_end(agendaForm) }}
+                </div>
+
+                {# --- LISTE DES ROUTINES EXISTANTES --- #}
+                <div class="mt-8 border-t pt-6">
+                    <h2 class="text-xl font-semibold mb-4">Routines existantes</h2>
+
+                    {% set patterns = page.agendaSlotPatterns ?? [] %}
+
+                    {% if patterns is empty %}
+                        <p class="text-gray-500 text-sm">Aucune routine pour l’instant.</p>
+                    {% else %}
+                        <table class="min-w-full text-sm text-left border border-gray-200 rounded overflow-hidden">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-3 py-2">Titre</th>
+                                    <th class="px-3 py-2">Jour</th>
+                                    <th class="px-3 py-2">Heure</th>
+                                    <th class="px-3 py-2">Capacité</th>
+                                    <th class="px-3 py-2 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pattern in patterns %}
+                                    <tr class="border-t border-gray-200">
+                                        <td class="px-3 py-2">{{ pattern.title }}</td>
+                                        <td class="px-3 py-2">
+                                            {% set d = pattern.dayOfWeek %}
+                                            {% if d == 1 %}Lundi{% elseif d == 2 %}Mardi{% elseif d == 3 %}Mercredi{% elseif d == 4 %}Jeudi{% elseif d == 5 %}Vendredi{% elseif d == 6 %}Samedi{% else %}Dimanche{% endif %}
+                                        </td>
+                                        <td class="px-3 py-2">
+                                            {{ pattern.startTime|date('H:i') }} → {{ pattern.endTime|date('H:i') }}
+                                        </td>
+                                        <td class="px-3 py-2">{{ pattern.capacity }}</td>
+                                        <td class="px-3 py-2 text-right">
+                                            <form method="post"
+                                                  action="{{ path('app_wiki_pattern_delete', {wikiId: page.id, id: pattern.id}) }}"
+                                                  onsubmit="return confirm('Supprimer cette routine ?');">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete_pattern' ~ pattern.id) }}">
+                                                <button class="text-red-500 hover:text-red-700 text-xs font-semibold">
+                                                    Supprimer
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
                 </div>
             {% endif %}
 

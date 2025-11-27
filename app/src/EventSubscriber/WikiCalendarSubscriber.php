@@ -84,6 +84,12 @@ class WikiCalendarSubscriber implements EventSubscriberInterface
                     (int) $endTime->format('i')
                 );
 
+                // Si l'heure de fin est <= heure de début, on considère que le créneau
+                // se termine le lendemain (créneau "inter-jours", ex: 21h-02h)
+                if ($endTime <= $startTime) {
+                    $occurrenceEnd->modify('+1 day');
+                }
+
                 // Vérifie combien de réservations existent déjà pour ce pattern + ce créneau
                 $existingCount = $this->agendaRepository->createQueryBuilder('a')
                     ->select('COUNT(a.id)')

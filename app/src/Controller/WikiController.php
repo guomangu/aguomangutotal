@@ -7,7 +7,7 @@ use App\Entity\WikiPage;
 use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Entity\AgendaSlotPattern;
-use App\Form\AgendaSlotPatternType;
+use App\Form\AgendaRoutineType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -165,14 +165,31 @@ class WikiController extends AbstractController
                 return $this->redirectToRoute('app_wiki_show', ['id' => $childWiki->getId()]);
             }
 
-            // Formulaire pour créer un pattern de créneau d'agenda (routine) pour ce wiki
-            $agendaPattern = new AgendaSlotPattern();
-            $agendaPattern->setWikiPage($wikiPage);
-            $agendaForm = $this->createForm(AgendaSlotPatternType::class, $agendaPattern);
+            // Formulaire pour créer une routine de créneaux (un seul bloc pour plusieurs jours)
+            $agendaForm = $this->createForm(AgendaRoutineType::class, null);
             $agendaForm->handleRequest($request);
 
             if ($agendaForm->isSubmitted() && $agendaForm->isValid()) {
-                $em->persist($agendaPattern);
+                $data = $agendaForm->getData();
+                $title = $data['title'];
+                $startTime = $data['startTime'];
+                $endTime = $data['endTime'];
+                $daysOfWeek = $data['daysOfWeek'] ?? [];
+                $capacity = (int) $data['capacity'];
+
+                foreach ($daysOfWeek as $dayOfWeek) {
+                    $pattern = new AgendaSlotPattern();
+                    $pattern->setWikiPage($wikiPage);
+                    $pattern->setTitle($title);
+                    $pattern->setStartTime($startTime);
+                    $pattern->setEndTime($endTime);
+                    $pattern->setDayOfWeek($dayOfWeek);
+                    $pattern->setCapacity($capacity);
+                    // validFrom / validTo null => se répète à l’infini
+
+                    $em->persist($pattern);
+                }
+
                 $em->flush();
 
                 return $this->redirectToRoute('app_wiki_show', ['id' => $wikiPage->getId()]);
@@ -207,5 +224,34 @@ class WikiController extends AbstractController
         }
 
         return $this->redirectToRoute('app_home'); // Ou 'admin' selon ta route d'accueil
+    }
+
+    #[Route('/wiki/{wikiId}/pattern/{id}/delete', name: 'app_wiki_pattern_delete', methods: ['POST'])]
+    public function deletePattern(
+        int $wikiId,
+        AgendaSlotPattern $pattern,
+        Request $request,
+        EntityManagerInterface $em
+    ): Response {
+        $wikiPage = $pattern->getWikiPage();
+
+        if (!$wikiPage || $wikiPage->getId() !== $wikiId) {
+            $this->addFlash('error', 'Routine introuvable pour ce wiki.');
+            return $this->redirectToRoute('app_wiki_index');
+        }
+
+        $currentUser = $this->getUser();
+        if (!$currentUser || !$wikiPage->getOwner() || $wikiPage->getOwner() !== $currentUser) {
+            $this->addFlash('error', 'Vous ne pouvez pas modifier les routines de ce wiki.');
+            return $this->redirectToRoute('app_wiki_show', ['id' => $wikiPage->getId()]);
+        }
+
+        if ($this->isCsrfTokenValid('delete_pattern'.$pattern->getId(), $request->request->get('_token'))) {
+            $em->remove($pattern);
+            $em->flush();
+            $this->addFlash('success', 'Routine supprimée.');
+        }
+
+        return $this->redirectToRoute('app_wiki_show', ['id' => $wikiPage->getId()]);
     }
 }
