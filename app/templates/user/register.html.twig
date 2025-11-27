@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer mon compte{% endblock %}
+
+{% block body %}
+
+    <div class="max-w-md mx-auto mt-10 bg-white rounded-lg shadow p-6">
+        <h1 class="text-2xl font-bold mb-4">Créer mon compte</h1>
+
+        {{ form_start(form) }}
+            <div class="space-y-4">
+                {{ form_row(form.username) }}
+                {{ form_row(form.email) }}
+            </div>
+
+            <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                Valider
+            </button>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+

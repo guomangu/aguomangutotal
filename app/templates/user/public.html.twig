@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{ user.username }}{% endblock %}
+
+{% block body %}
+
+    <div class="max-w-2xl mx-auto mt-10 bg-white rounded-lg shadow p-6">
+        <h1 class="text-2xl font-bold mb-4">Profil public</h1>
+
+        <p class="text-lg">
+            <span class="font-semibold">Nom d’utilisateur :</span>
+            {{ user.username }}
+        </p>
+
+        <p class="mt-2 text-gray-600">
+            <span class="font-semibold">Email :</span>
+            {{ user.email }}
+        </p>
+
+        <p class="mt-6 text-sm text-gray-500">
+            URL publique : <code>/u/{{ user.username }}</code>
+        </p>
+
+        <hr class="my-6">
+
+        <h2 class="text-xl font-semibold mb-3">Ses pages wiki</h2>
+
+        {% if wikis is empty %}
+            <p class="text-gray-500 mb-4">Cet utilisateur n’a pas encore de pages wiki.</p>
+        {% else %}
+            <ul class="space-y-3 mb-6">
+                {% for page in wikis %}
+                    <li class="border rounded p-3 flex items-center justify-between">
+                        <div>
+                            <a href="{{ path('app_wiki_show', {id: page.id}) }}" class="font-semibold text-blue-600 hover:underline">
+                                {{ page.title }}
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <div class="mt-6">
+            <h3 class="text-lg font-semibold mb-3">Créer une nouvelle page wiki</h3>
+
+            {{ form_start(wikiForm) }}
+                <div class="space-y-4">
+                    {{ form_row(wikiForm.title) }}
+                    {{ form_row(wikiForm.imageFile) }}
+                </div>
+                <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    Créer la page
+                </button>
+            {{ form_end(wikiForm) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+

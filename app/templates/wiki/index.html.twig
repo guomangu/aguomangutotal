@@ -20,8 +20,83 @@
                 {{ page.content|raw }}
             </div> #}
 
+            {# --- LISTE DES ARTICLES ENFANTS --- #}
+            <div class="mt-8">
+                <h2 class="text-xl font-semibold mb-4">Articles</h2>
+
+                {% if page.articles is empty %}
+                    <p class="text-gray-500">Aucun article pour l’instant.</p>
+                {% else %}
+                    <ul class="space-y-3">
+                        {% for article in page.articles %}
+                            <li class="border border-gray-200 rounded p-3 bg-gray-50">
+                                <h3 class="font-semibold text-gray-800">{{ article.title }}</h3>
+                                {% if article.image %}
+                                    <img src="{{ article.image }}" class="w-full h-48 object-cover rounded mb-3 shadow-sm" alt="">
+                                {% endif %}
+                                {% if article.content %}
+                                    <p class="mt-1 text-gray-700 text-sm">
+                                        {{ article.content }}
+                                    </p>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            {# --- FORMULAIRE DE CREATION D'ARTICLE --- #}
+            <div class="mt-8 border-t pt-6">
+                <h2 class="text-xl font-semibold mb-4">Ajouter un article</h2>
+                {{ form_start(articleForm) }}
+                    <div class="space-y-4">
+                        {{ form_row(articleForm.title) }}
+                        {{ form_row(articleForm.content) }}
+                        {{ form_row(articleForm.imageFile) }}
+                    </div>
+                    <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                        Enregistrer l’article
+                    </button>
+                {{ form_end(articleForm) }}
+            </div>
+
+            {# --- LISTE DES WIKIS ENFANTS --- #}
+            <div class="mt-10 border-t pt-6">
+                <h2 class="text-xl font-semibold mb-4">Wikis enfants</h2>
+
+                {% if page.children is empty %}
+                    <p class="text-gray-500">Aucun wiki enfant pour l’instant.</p>
+                {% else %}
+                    <ul class="space-y-3">
+                        {% for child in page.children %}
+                            <li class="border border-gray-200 rounded p-3 bg-gray-50 flex justify-between items-center">
+                                <div>
+                                    <a href="{{ path('app_wiki_show', {id: child.id}) }}" class="font-semibold text-blue-600 hover:underline">
+                                        {{ child.title }}
+                                    </a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            {# --- FORMULAIRE DE CREATION DE WIKI ENFANT --- #}
+            <div class="mt-8 border-t pt-6">
+                <h2 class="text-xl font-semibold mb-4">Créer un wiki enfant</h2>
+                {{ form_start(childWikiForm) }}
+                    <div class="space-y-4">
+                        {{ form_row(childWikiForm.title) }}
+                        {{ form_row(childWikiForm.imageFile) }}
+                    </div>
+                    <button class="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                        Créer le wiki enfant
+                    </button>
+                {{ form_end(childWikiForm) }}
+            </div>
+
             {# --- BOUTON DELETE (Invisible pour les visiteurs si tu ajoutes une condition is_granted) --- #}
-            <div class="flex justify-end mb-4">
+            <div class="flex justify-end mb-4 mt-6">
                 <form method="post" action="{{ path('app_wiki_delete', {'id': page.id}) }}" onsubmit="return confirm('Sûr de vouloir supprimer ça ?');">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ page.id) }}">
                     <button class="text-red-500 hover:text-red-700 text-sm font-bold underline">
