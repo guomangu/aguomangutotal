@@ -7,6 +7,7 @@ use App\Entity\AgendaSlotPattern;
 use App\Entity\WikiPage;
 use App\Repository\AgendaSlotPatternRepository;
 use App\Repository\WikiPageRepository;
+use App\Service\NotificationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +21,8 @@ class AgendaBookingController extends AbstractController
         Request $request,
         WikiPageRepository $wikiRepo,
         AgendaSlotPatternRepository $patternRepo,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        NotificationService $notificationService
     ): Response {
         $user = $this->getUser();
         if (!$user) {
@@ -91,6 +93,12 @@ class AgendaBookingController extends AbstractController
 
         $em->persist($agenda);
         $em->flush();
+
+        // Notification dans le forum si il existe
+        $forum = $wiki->getForum();
+        if ($forum) {
+            $notificationService->notifyAgendaReserved($forum, $pattern->getTitle(), $occurrenceStart, $user);
+        }
 
         $this->addFlash('success', 'Créneau réservé avec succès.');
 

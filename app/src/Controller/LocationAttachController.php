@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\WikiPage;
 use App\Service\LocationTagService;
+use App\Service\NotificationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,8 @@ class LocationAttachController extends AbstractController
         string $externalId,
         Request $request,
         LocationTagService $locationTagService,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        NotificationService $notificationService
     ): Response {
         $currentUser = $this->getUser();
         if (!$currentUser || !$wikiPage->getOwner() || $wikiPage->getOwner() !== $currentUser) {
@@ -37,8 +39,20 @@ class LocationAttachController extends AbstractController
             return $this->redirectToRoute('app_wiki_show', ['id' => $wikiPage->getId()]);
         }
 
-        $locationTagService->attachLocationTagsToWiki($wikiPage, $record);
+        $tags = $locationTagService->attachLocationTagsToWiki($wikiPage, $record);
         $em->flush();
+
+        // Notification dans le forum si il existe
+        $forum = $wikiPage->getForum();
+        if ($forum && !empty($tags)) {
+            // Prendre le tag le plus spécifique (le dernier dans la hiérarchie)
+            $lastTag = end($tags);
+            $tagName = $lastTag->getName();
+            if ($lastTag->getParent()) {
+                $tagName = $lastTag->getParent()->getName() . ' > ' . $tagName;
+            }
+            $notificationService->notifyTagCreated($forum, $tagName, $currentUser);
+        }
 
         $this->addFlash('success', 'Localisation associée au wiki.');
 

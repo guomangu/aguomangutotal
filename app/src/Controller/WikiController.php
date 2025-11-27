@@ -12,6 +12,7 @@ use App\Entity\Message;
 use App\Form\MessageType;
 use App\Form\AgendaRoutineType;
 use App\Service\LocationTagService;
+use App\Service\NotificationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -101,7 +102,8 @@ class WikiController extends AbstractController
         WikiPage $wikiPage,
         Request $request,
         EntityManagerInterface $em,
-        LocationTagService $locationTagService
+        LocationTagService $locationTagService,
+        NotificationService $notificationService
     ): Response
     {
         // Magie : Symfony a vu "{id}" dans l'URL et "WikiPage" dans les arguments.
@@ -142,6 +144,12 @@ class WikiController extends AbstractController
                 $em->persist($article);
                 $em->flush();
 
+                // Notification dans le forum si il existe
+                $forum = $wikiPage->getForum();
+                if ($forum) {
+                    $notificationService->notifyArticleCreated($forum, $article->getTitle(), $currentUser);
+                }
+
                 return $this->redirectToRoute('app_wiki_show', ['id' => $wikiPage->getId()]);
             }
 
@@ -174,6 +182,12 @@ class WikiController extends AbstractController
                 $em->persist($childWiki);
                 $em->flush();
 
+                // Notification dans le forum si il existe
+                $forum = $wikiPage->getForum();
+                if ($forum) {
+                    $notificationService->notifyWikiChildCreated($forum, $childWiki->getTitle(), $currentUser);
+                }
+
                 return $this->redirectToRoute('app_wiki_show', ['id' => $childWiki->getId()]);
             }
 
@@ -203,6 +217,12 @@ class WikiController extends AbstractController
                 }
 
                 $em->flush();
+
+                // Notification dans le forum si il existe
+                $forum = $wikiPage->getForum();
+                if ($forum) {
+                    $notificationService->notifyAgendaRoutineCreated($forum, $title, $currentUser);
+                }
 
                 return $this->redirectToRoute('app_wiki_show', ['id' => $wikiPage->getId()]);
             }
@@ -256,6 +276,13 @@ class WikiController extends AbstractController
                 $wikiPage->addLocationTag($tag);
                 $em->flush();
 
+                // Notification dans le forum si il existe
+                $forum = $wikiPage->getForum();
+                if ($forum) {
+                    $tagName = $tag->getDescription() ?: $tag->getName();
+                    $notificationService->notifyTagCreated($forum, $tagName, $currentUser);
+                }
+
                 return $this->redirectToRoute('app_wiki_show', ['id' => $wikiPage->getId()]);
             }
         }
@@ -279,13 +306,40 @@ class WikiController extends AbstractController
         }
 
         $messageForm = null;
-        $messages = [];
+        $forumItems = []; // Mélange de notifications et messages
 
         if ($forum) {
             $messages = $em->getRepository(Message::class)->findBy(
                 ['forum' => $forum],
                 ['createdAt' => 'ASC']
             );
+            
+            $notifications = $em->getRepository(\App\Entity\Notification::class)->findBy(
+                ['forum' => $forum],
+                ['createdAt' => 'ASC']
+            );
+
+            // Fusionner les notifications et messages avec un type pour les distinguer
+            foreach ($messages as $message) {
+                $forumItems[] = [
+                    'type' => 'message',
+                    'item' => $message,
+                    'createdAt' => $message->getCreatedAt(),
+                ];
+            }
+
+            foreach ($notifications as $notification) {
+                $forumItems[] = [
+                    'type' => 'notification',
+                    'item' => $notification,
+                    'createdAt' => $notification->getCreatedAt(),
+                ];
+            }
+
+            // Trier par date/heure (du plus récent au plus ancien)
+            usort($forumItems, function ($a, $b) {
+                return $b['createdAt'] <=> $a['createdAt'];
+            });
 
             if ($currentUser) {
                 $message = new Message();
@@ -311,7 +365,7 @@ class WikiController extends AbstractController
             'agendaForm' => $agendaForm,
             'isOwner' => $isOwner,
             'forum' => $forum,
-            'messages' => $messages,
+            'forumItems' => $forumItems,
             'messageForm' => $messageForm,
             'locationSearchQuery' => $locationSearchQuery,
             'locationSearchResults' => $locationSearchResults,

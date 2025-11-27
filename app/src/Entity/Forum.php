@@ -26,9 +26,13 @@ class Forum
     #[ORM\OneToMany(mappedBy: 'forum', targetEntity: Message::class, orphanRemoval: true)]
     private Collection $messages;
 
+    #[ORM\OneToMany(mappedBy: 'forum', targetEntity: \App\Entity\Notification::class, orphanRemoval: true)]
+    private Collection $notifications;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -83,6 +87,35 @@ class Forum
         if ($this->messages->removeElement($message)) {
             if ($message->getForum() === $this) {
                 $message->setForum(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, \App\Entity\Notification>
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(\App\Entity\Notification $notification): static
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications->add($notification);
+            $notification->setForum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(\App\Entity\Notification $notification): static
+    {
+        if ($this->notifications->removeElement($notification)) {
+            if ($notification->getForum() === $this) {
+                $notification->setForum(null);
             }
         }
 
