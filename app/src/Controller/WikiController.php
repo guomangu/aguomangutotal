@@ -51,7 +51,7 @@ class WikiController extends AbstractController
             return $this->redirectToRoute('app_wiki_show', ['id' => $page->getId()]);
         }
 
-        $pages = $em->getRepository(WikiPage::class)->findBy([], ['id' => 'DESC']);
+        $pages = $em->getRepository(WikiPage::class)->findBy([], ['id' => 'DESC'], 30);
 
         return $this->render('wiki/list.html.twig', [
             'pages' => $pages,
@@ -318,9 +318,10 @@ class WikiController extends AbstractController
                  LEFT JOIN m.author a 
                  WHERE m.forum = :forum 
                  AND (a.id IS NOT NULL OR m.author IS NULL)
-                 ORDER BY m.createdAt ASC'
+                 ORDER BY m.createdAt DESC'
             )
             ->setParameter('forum', $forum)
+            ->setMaxResults(50)
             ->getResult();
             
             // Vérifier que les auteurs existent encore
@@ -349,9 +350,10 @@ class WikiController extends AbstractController
                 'SELECT n FROM App\Entity\Notification n 
                  LEFT JOIN n.author a 
                  WHERE n.forum = :forum 
-                 ORDER BY n.createdAt ASC'
+                 ORDER BY n.createdAt DESC'
             )
             ->setParameter('forum', $forum)
+            ->setMaxResults(50)
             ->getResult();
             
             // Vérifier que les auteurs existent encore
@@ -448,6 +450,17 @@ class WikiController extends AbstractController
             }
         }
 
+        // Limiter les articles affichés
+        $articles = $em->getRepository(\App\Entity\Article::class)
+            ->findBy(['wikiPage' => $wikiPage], ['id' => 'DESC'], 30);
+        
+        // Limiter les patterns affichés (pour le propriétaire)
+        $patterns = null;
+        if ($isOwner) {
+            $patterns = $em->getRepository(\App\Entity\AgendaSlotPattern::class)
+                ->findBy(['wikiPage' => $wikiPage], ['id' => 'DESC'], 30);
+        }
+
         return $this->render('wiki/index.html.twig', [
             'page' => $wikiPage,
             'articleForm' => $articleForm,
@@ -461,6 +474,8 @@ class WikiController extends AbstractController
             'locationSearchResults' => $locationSearchResults,
             'customLocationForm' => $customLocationForm,
             'hasOfficialTags' => $hasOfficialTags,
+            'articles' => $articles,
+            'patterns' => $patterns,
         ]);
     }
     

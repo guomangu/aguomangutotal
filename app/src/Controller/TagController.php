@@ -40,9 +40,10 @@ class TagController extends AbstractController
                  LEFT JOIN m.author a 
                  WHERE m.forum = :forum 
                  AND (a.id IS NOT NULL OR m.author IS NULL)
-                 ORDER BY m.createdAt ASC'
+                 ORDER BY m.createdAt DESC'
             )
             ->setParameter('forum', $forum)
+            ->setMaxResults(50)
             ->getResult();
             
             // Vérifier que les auteurs existent encore
@@ -71,9 +72,10 @@ class TagController extends AbstractController
                 'SELECT n FROM App\Entity\Notification n 
                  LEFT JOIN n.author a 
                  WHERE n.forum = :forum 
-                 ORDER BY n.createdAt ASC'
+                 ORDER BY n.createdAt DESC'
             )
             ->setParameter('forum', $forum)
+            ->setMaxResults(50)
             ->getResult();
             
             // Vérifier que les auteurs existent encore
@@ -200,10 +202,19 @@ class TagController extends AbstractController
             }
         }
 
-        $wikis = $tag->getWikiPages();
+        // Limiter les wikis affichés
+        $wikis = $em->getRepository(\App\Entity\WikiPage::class)->createQueryBuilder('w')
+            ->innerJoin('w.locationTags', 't')
+            ->where('t.id = :tagId')
+            ->setParameter('tagId', $tag->getId())
+            ->orderBy('w.id', 'DESC')
+            ->setMaxResults(30)
+            ->getQuery()
+            ->getResult();
         $articles = $em->getRepository(Article::class)->findBy(
             ['locationTag' => $tag],
-            ['id' => 'DESC']
+            ['id' => 'DESC'],
+            30
         );
 
         // Construire la hiérarchie des parents

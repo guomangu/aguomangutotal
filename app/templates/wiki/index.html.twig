@@ -49,11 +49,11 @@
             <div class="mt-8">
                 <h2 class="text-xl font-semibold mb-4">Articles</h2>
 
-                {% if page.articles is empty %}
-                    <p class="text-gray-500">Aucun article pour l’instant.</p>
+                {% if articles is empty %}
+                    <p class="text-gray-500">Aucun article pour l'instant.</p>
                 {% else %}
                     <ul class="space-y-3">
-                        {% for article in page.articles %}
+                        {% for article in articles %}
                             <li class="border border-gray-200 rounded p-3 bg-gray-50">
                                 <h3 class="font-semibold text-gray-800">{{ article.title }}</h3>
                                 {% if article.image %}
@@ -372,7 +372,7 @@
                 <div class="mt-8 border-t pt-6">
                     <h2 class="text-xl font-semibold mb-4">Routines existantes</h2>
 
-                    {% set patterns = page.agendaSlotPatterns ?? [] %}
+                    {% set patterns = patterns ?? [] %}
 
                     {% if patterns is empty %}
                         <p class="text-gray-500 text-sm">Aucune routine pour l’instant.</p>

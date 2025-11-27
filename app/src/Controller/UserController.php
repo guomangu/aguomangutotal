@@ -91,10 +91,16 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_user_public', ['identifier' => $identifier]);
         }
 
-        $wikis = $user->getWikiPages();
+        // Limiter les wikis affichés
+        $wikis = $em->getRepository(WikiPage::class)->findBy(
+            ['owner' => $user],
+            ['id' => 'DESC'],
+            30
+        );
         $reservations = $em->getRepository(Agenda::class)->findBy(
             ['user' => $user],
-            ['start' => 'ASC']
+            ['start' => 'DESC'],
+            30
         );
 
         // Calculer les statistiques
