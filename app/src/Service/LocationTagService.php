@@ -27,13 +27,31 @@ class LocationTagService
     /**
      * Recherche des adresses correspondant à une chaîne,
      * et renvoie quelques propositions (numéro + voie + commune).
+     * 
+     * Recherche multi-mots : divise la requête en mots-clés et recherche dans
+     * plusieurs champs (numero, nom_voie, nom_commune, code_postal).
+     * Trie les résultats par nombre de correspondances décroissant.
      *
-     * @return array<int, array<string, string>>
+     * @return array<int, array<string, string|int>>
      */
-    public function searchPlaces(string $query, int $limit = 20): array
+    public function searchPlaces(string $query, int $limit = 10): array
     {
-        $query = mb_strtolower(trim($query));
+        $query = trim($query);
         if ($query === '') {
+            return [];
+        }
+
+        // Limiter la limite à un maximum raisonnable pour éviter les crashs
+        $limit = min($limit, 50);
+
+        // Diviser la requête en mots-clés (supprimer les espaces multiples)
+        // Conversion en minuscules pour éviter les problèmes de casse
+        $keywords = array_filter(
+            preg_split('/\s+/', mb_strtolower($query)),
+            fn($word) => $word !== ''
+        );
+        
+        if (empty($keywords)) {
             return [];
         }
 
@@ -42,21 +60,76 @@ class LocationTagService
         $csv->setHeaderOffset(0);
 
         $results = [];
+        $maxResults = $limit * 3; // Collecter 3x plus de résultats pour avoir de quoi trier
 
         foreach ($csv->getRecords() as $record) {
             /** @var array<string,string> $record */
-            $numero   = mb_strtolower($record['numero'] ?? '');
-            $voie     = mb_strtolower($record['nom_voie'] ?? '');
-            $commune  = mb_strtolower($record['nom_commune'] ?? '');
-            $cp       = mb_strtolower($record['code_postal'] ?? '');
+            // Conversion en minuscules pour éviter les problèmes de casse
+            $numero   = mb_strtolower(trim($record['numero'] ?? ''));
+            $voie     = mb_strtolower(trim($record['nom_voie'] ?? ''));
+            $commune  = mb_strtolower(trim($record['nom_commune'] ?? ''));
+            $cp       = mb_strtolower(trim($record['code_postal'] ?? ''));
 
-            $haystack = trim($numero.' '.$voie.' '.$commune.' '.$cp);
-
-            if ($haystack === '') {
-                continue;
+            // Pour chaque mot-clé, vérifier dans quel(s) champ(s) il correspond
+            $matchedKeywords = [];
+            $matchedFields = [
+                'numero' => false,
+                'voie' => false,
+                'commune' => false,
+                'code_postal' => false,
+            ];
+            
+            foreach ($keywords as $keyword) {
+                $keyword = trim($keyword);
+                if ($keyword === '') {
+                    continue;
+                }
+                
+                // Vérifier si le mot-clé correspond dans chaque champ (tous en minuscules)
+                $foundInFields = [];
+                if ($numero !== '' && str_contains($numero, $keyword)) {
+                    $matchedFields['numero'] = true;
+                    $foundInFields[] = 'numero';
+                }
+                if ($voie !== '' && str_contains($voie, $keyword)) {
+                    $matchedFields['voie'] = true;
+                    $foundInFields[] = 'voie';
+                }
+                if ($commune !== '' && str_contains($commune, $keyword)) {
+                    $matchedFields['commune'] = true;
+                    $foundInFields[] = 'commune';
+                }
+                if ($cp !== '' && str_contains($cp, $keyword)) {
+                    $matchedFields['code_postal'] = true;
+                    $foundInFields[] = 'code_postal';
+                }
+                
+                // Si le mot-clé a été trouvé, l'enregistrer
+                if (!empty($foundInFields)) {
+                    $matchedKeywords[] = [
+                        'keyword' => $keyword,
+                        'fields' => $foundInFields,
+                    ];
+                }
             }
 
-            if (str_contains($haystack, $query)) {
+            // Ne garder que les résultats où TOUS les mots-clés sont trouvés
+            $totalKeywords = count($keywords);
+            $foundKeywords = count($matchedKeywords);
+            
+            if ($foundKeywords === $totalKeywords && $foundKeywords > 0) {
+                // Compter le nombre de champs différents qui correspondent
+                $fieldCount = 0;
+                if ($matchedFields['numero']) $fieldCount++;
+                if ($matchedFields['voie']) $fieldCount++;
+                if ($matchedFields['commune']) $fieldCount++;
+                if ($matchedFields['code_postal']) $fieldCount++;
+                
+                // Score = (nombre de champs * 100) + nombre de mots-clés
+                // Cela privilégie fortement les résultats qui correspondent à plusieurs champs
+                // Exemple : 3 champs + 4 mots = 304 points vs 1 champ + 4 mots = 104 points
+                $score = ($fieldCount * 100) + $foundKeywords;
+                
                 $results[] = [
                     'id' => $record['id'] ?? '',
                     'numero' => $record['numero'] ?? '',
@@ -64,12 +137,27 @@ class LocationTagService
                     'nom_commune' => $record['nom_commune'] ?? '',
                     'code_postal' => $record['code_postal'] ?? '',
                     'code_insee' => $record['code_insee'] ?? '',
+                    '_score' => $score, // Score pour le tri
                 ];
             }
 
-            if (\count($results) >= $limit) {
+            // Arrêter la recherche si on a collecté assez de résultats
+            if (\count($results) >= $maxResults) {
                 break;
             }
+        }
+
+        // Trier par score décroissant (plus de correspondances = meilleur résultat)
+        usort($results, function ($a, $b) {
+            return $b['_score'] <=> $a['_score'];
+        });
+
+        // Limiter les résultats finaux
+        $results = array_slice($results, 0, $limit);
+
+        // Retirer le score des résultats finaux (pas besoin de l'afficher)
+        foreach ($results as &$result) {
+            unset($result['_score']);
         }
 
         return $results;
