@@ -10,6 +10,7 @@
     },
     "scripts": {
         "post-install-cmd": [
+            "cd app && composer install --no-dev --optimize-autoloader",
             "./frankenphp-linux-x86_64 php-cli app/bin/console tailwind:build --watch -v",
             "./frankenphp-linux-x86_64 php-server --listen :8000 -r app/public/"
         ]
