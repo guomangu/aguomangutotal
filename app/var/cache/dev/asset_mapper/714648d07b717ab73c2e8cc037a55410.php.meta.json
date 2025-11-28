@@ -1,0 +1,1 @@
+{"resources":[{"@type":"Symfony\\Component\\Config\\Resource\\FileResource","resource":"/home/guillaume/Bureau/aguomangu/app/vendor/symfony/ux-live-component/assets/dist/live_controller.js"},{"@type":"Symfony\\Component\\Config\\Resource\\FileExistenceResource","exists":true,"resource":"/home/guillaume/Bureau/aguomangu/app/assets/vendor/@hotwired/stimulus/stimulus.index.js"}]}
