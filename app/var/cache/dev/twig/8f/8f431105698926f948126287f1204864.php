@@ -79,6 +79,6 @@ class __TwigTemplate_5a06b18f08d69d1291cd446a79f80b10 extends Template
     <line x1=\"4\" y1=\"10\" x2=\"20\" y2=\"10\" />
     <line x1=\"10\" y1=\"4\" x2=\"10\" y2=\"20\" />
 </svg>
-", "@EasyAdmin/inspector/icon-v3.svg.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/inspector/icon-v3.svg.twig");
+", "@EasyAdmin/inspector/icon-v3.svg.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/inspector/icon-v3.svg.twig");
     }
 }

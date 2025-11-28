@@ -453,6 +453,6 @@ class __TwigTemplate_17e0951f1c670244e8fa1c0d981365b3 extends Template
         {{ form(new_form) }}
     {% endblock new_form %}
 {% endblock %}
-", "@EasyAdmin/crud/new.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/crud/new.html.twig");
+", "@EasyAdmin/crud/new.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/crud/new.html.twig");
     }
 }

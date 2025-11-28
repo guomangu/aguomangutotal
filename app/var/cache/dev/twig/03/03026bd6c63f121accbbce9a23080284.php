@@ -107,6 +107,6 @@ class __TwigTemplate_fd6416f1dc145339f525346698bdfb35 extends Template
 <div {{ attributes.defaults({class: 'dropdown'}) }}>
     {% block content %}{% endblock %}
 </div>
-", "@EasyAdmin/components/ActionMenu.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/components/ActionMenu.html.twig");
+", "@EasyAdmin/components/ActionMenu.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/components/ActionMenu.html.twig");
     }
 }

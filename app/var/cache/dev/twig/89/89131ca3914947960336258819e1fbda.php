@@ -86,6 +86,6 @@ class __TwigTemplate_54736b4e685fcd6668693503e125483f extends Template
 {# @var field \\EasyCorp\\Bundle\\EasyAdminBundle\\Dto\\FieldDto #}
 {# @var entity \\EasyCorp\\Bundle\\EasyAdminBundle\\Dto\\EntityDto #}
 <img class=\"image-avatar\" height=\"{{ field.customOptions.get('height') }}\" width=\"{{ field.customOptions.get('height') }}\" src=\"{{ field.formattedValue }}\">
-", "@EasyAdmin/crud/field/avatar.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/crud/field/avatar.html.twig");
+", "@EasyAdmin/crud/field/avatar.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/crud/field/avatar.html.twig");
     }
 }

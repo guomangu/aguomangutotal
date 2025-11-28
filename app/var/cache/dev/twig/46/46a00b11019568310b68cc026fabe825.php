@@ -118,6 +118,6 @@ class __TwigTemplate_ffb35aabf8748d74032c1055c5e40460 extends Template
         {{ component('ea:Button', { type: 'button', isInvisible: true, icon: 'internal:xmark', class: 'btn-close', 'data-bs-dismiss': 'alert', 'aria-label': 'Close' }) }}
     {% endif %}
 </div>
-", "@EasyAdmin/components/Alert.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/components/Alert.html.twig");
+", "@EasyAdmin/components/Alert.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/components/Alert.html.twig");
     }
 }

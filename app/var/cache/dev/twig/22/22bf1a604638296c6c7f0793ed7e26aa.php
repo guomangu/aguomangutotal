@@ -142,7 +142,7 @@ class __TwigTemplate_23aa97723c6625741b16296efc82a8b7 extends Template
         </div>
     </div>
 </div>
-", "@EasyAdmin/crud/includes/_batch_action_modal.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/crud/includes/_batch_action_modal.html.twig");
+", "@EasyAdmin/crud/includes/_batch_action_modal.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/crud/includes/_batch_action_modal.html.twig");
     }
 }
 
@@ -264,7 +264,7 @@ class __TwigTemplate_23aa97723c6625741b16296efc82a8b7___23930638861 extends Temp
         </div>
     </div>
 </div>
-", "@EasyAdmin/crud/includes/_batch_action_modal.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/crud/includes/_batch_action_modal.html.twig");
+", "@EasyAdmin/crud/includes/_batch_action_modal.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/crud/includes/_batch_action_modal.html.twig");
     }
 }
 
@@ -386,6 +386,6 @@ class __TwigTemplate_23aa97723c6625741b16296efc82a8b7___29254269311 extends Temp
         </div>
     </div>
 </div>
-", "@EasyAdmin/crud/includes/_batch_action_modal.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/crud/includes/_batch_action_modal.html.twig");
+", "@EasyAdmin/crud/includes/_batch_action_modal.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/crud/includes/_batch_action_modal.html.twig");
     }
 }

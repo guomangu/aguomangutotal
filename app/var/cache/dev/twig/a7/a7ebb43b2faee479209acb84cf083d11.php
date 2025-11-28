@@ -186,6 +186,6 @@ class __TwigTemplate_87a7b525021f43d3b5e768d522589016 extends Template
 
     {{ form_end(form) }}
 </div>
-{% endblock %}", "wiki/new.html.twig", "/home/guillaume/Bureau/aguomangu/app/templates/wiki/new.html.twig");
+{% endblock %}", "wiki/new.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/templates/wiki/new.html.twig");
     }
 }

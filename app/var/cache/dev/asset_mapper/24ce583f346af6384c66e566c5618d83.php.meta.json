@@ -1,0 +1,1 @@
+{"resources":[{"@type":"Symfony\\Component\\Config\\Resource\\FileResource","resource":"/home/guillaume/Bureau/atest/aguomangu2/app/assets/app.js"},{"@type":"Symfony\\Component\\Config\\Resource\\FileExistenceResource","exists":true,"resource":"/home/guillaume/Bureau/atest/aguomangu2/app/assets/styles/app.css"}]}

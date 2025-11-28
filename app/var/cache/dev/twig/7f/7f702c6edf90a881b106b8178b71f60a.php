@@ -193,6 +193,6 @@ class __TwigTemplate_94fc29ce510b692a2f16575f46a33fea extends Template
         {{ exception.publicMessage|trans(exception.translationParameters, 'EasyAdminBundle') }}
     </div>
 {% endblock %}
-", "@EasyAdmin/exception.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/exception.html.twig");
+", "@EasyAdmin/exception.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/exception.html.twig");
     }
 }

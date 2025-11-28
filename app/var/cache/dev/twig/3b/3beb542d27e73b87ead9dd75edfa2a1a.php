@@ -289,6 +289,6 @@ class __TwigTemplate_94012bf0de6039456baf28aa698e66e9 extends Template
         {% block wrapper_wrapper %}{% endblock wrapper_wrapper %}
     </body>
 </html>
-", "@EasyAdmin/page/login_minimal.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/page/login_minimal.html.twig");
+", "@EasyAdmin/page/login_minimal.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/page/login_minimal.html.twig");
     }
 }

@@ -96,6 +96,6 @@ class __TwigTemplate_c4a8ad3fb21a361489d973e2bd97b7b6 extends Template
 {% else %}
     {{ field.formattedValue }}
 {% endif %}
-", "@EasyAdmin/crud/field/collection.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/crud/field/collection.html.twig");
+", "@EasyAdmin/crud/field/collection.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/crud/field/collection.html.twig");
     }
 }

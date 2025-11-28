@@ -167,6 +167,6 @@ class __TwigTemplate_2c10ee2b7db32302767a1f2e56f9e032 extends Template
 {% endblock %}
 
 
-", "user/register.html.twig", "/home/guillaume/Bureau/aguomangu/app/templates/user/register.html.twig");
+", "user/register.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/templates/user/register.html.twig");
     }
 }

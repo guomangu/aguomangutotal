@@ -130,6 +130,6 @@ class __TwigTemplate_bf48a62056a0b332e75c806d2c395f4e extends Template
         {{ form_row(button_delete) }}
     {%- endif -%}
 {%- endblock live_collection_entry_row -%}
-", "@LiveComponent/form_theme.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/symfony/ux-live-component/templates/form_theme.html.twig");
+", "@LiveComponent/form_theme.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/symfony/ux-live-component/templates/form_theme.html.twig");
     }
 }

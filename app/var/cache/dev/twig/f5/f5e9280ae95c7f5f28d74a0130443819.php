@@ -103,6 +103,6 @@ class __TwigTemplate_692b18f6339e4a4a77c4e9ece6e2c8f8 extends Template
 <p>
     Cheers!
 </p>
-", "registration/confirmation_email.html.twig", "/home/guillaume/Bureau/aguomangu/app/templates/registration/confirmation_email.html.twig");
+", "registration/confirmation_email.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/templates/registration/confirmation_email.html.twig");
     }
 }

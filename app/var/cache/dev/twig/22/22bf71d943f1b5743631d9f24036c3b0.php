@@ -155,6 +155,6 @@ class __TwigTemplate_0acc1017b3b6c9cf60af698500c880db extends Template
     <div class=\"bg-gray-50 px-6 py-3 text-xs text-gray-400 text-right\">
         Wiki Cheatcode v1.0
     </div>
-</div>", "components/WikiCard.html.twig", "/home/guillaume/Bureau/aguomangu/app/templates/components/WikiCard.html.twig");
+</div>", "components/WikiCard.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/templates/components/WikiCard.html.twig");
     }
 }

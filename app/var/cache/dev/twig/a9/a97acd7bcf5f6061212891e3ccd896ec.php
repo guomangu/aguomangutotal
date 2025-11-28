@@ -125,6 +125,6 @@ class __TwigTemplate_fa32d46a1e7bf9b91519b5a62a2c8ce2 extends Template
         {%- for attr, value in js_asset.htmlAttributes %} {{ attr }}=\"{{ value|e('html') }}\"{% endfor %}></script>
     {% endif %}
 {% endfor %}
-", "@EasyAdmin/includes/_js_assets.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/includes/_js_assets.html.twig");
+", "@EasyAdmin/includes/_js_assets.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/includes/_js_assets.html.twig");
     }
 }

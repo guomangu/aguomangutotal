@@ -152,6 +152,6 @@ class __TwigTemplate_71794234032c0fdd357db4633715bf26 extends Template
         <label class=\"form-check-label\" for=\"{{ field.uniqueId }}\"></label>
     </div>
 {% endif %}
-", "@EasyAdmin/crud/field/boolean.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/crud/field/boolean.html.twig");
+", "@EasyAdmin/crud/field/boolean.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/crud/field/boolean.html.twig");
     }
 }

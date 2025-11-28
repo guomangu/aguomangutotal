@@ -161,6 +161,6 @@ class __TwigTemplate_755c95288742a83fc1d5452eb61c5930 extends Template
         {% endif %}
     {% endblock %}
 </{{ loadingTag }}>
-", "@LiveComponent/deferred.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/symfony/ux-live-component/templates/deferred.html.twig");
+", "@LiveComponent/deferred.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/symfony/ux-live-component/templates/deferred.html.twig");
     }
 }

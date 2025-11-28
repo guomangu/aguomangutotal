@@ -446,6 +446,6 @@ class __TwigTemplate_8fcc5421a719dc0f091d8f031a0027ec extends Template
 </article>
 </body>
 </html>
-", "@EasyAdmin/welcome.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/welcome.html.twig");
+", "@EasyAdmin/welcome.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/welcome.html.twig");
     }
 }

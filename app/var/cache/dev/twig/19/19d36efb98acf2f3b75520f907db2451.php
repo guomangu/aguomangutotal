@@ -113,6 +113,6 @@ class __TwigTemplate_148646ad20eb1a3dbf3bd05bacc8a217 extends Template
 {% if field.customOptions.get('showName') %}
     {{ field.formattedValue.name }}
 {% endif %}
-", "@EasyAdmin/crud/field/currency.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/crud/field/currency.html.twig");
+", "@EasyAdmin/crud/field/currency.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/crud/field/currency.html.twig");
     }
 }

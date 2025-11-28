@@ -188,6 +188,6 @@ class __TwigTemplate_622e866b0a196e76897bb5e3c03ac834 extends Template
 {% block content_title %}{{ block('page_title') }}{% endblock %}
 
 {% block main %}{{ block('page_content') }}{% endblock %}
-", "@EasyAdmin/page/content.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/page/content.html.twig");
+", "@EasyAdmin/page/content.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/page/content.html.twig");
     }
 }

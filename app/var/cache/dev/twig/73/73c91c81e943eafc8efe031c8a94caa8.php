@@ -81,6 +81,6 @@ class __TwigTemplate_e30d9fbbdc6fb62fa8aa2e58f3894f25 extends Template
 {# @var field \\EasyCorp\\Bundle\\EasyAdminBundle\\Dto\\FieldDto #}
 {# @var entity \\EasyCorp\\Bundle\\EasyAdminBundle\\Dto\\EntityDto #}
 {{ field.formattedValue|trans|raw }}
-", "@EasyAdmin/crud/field/choice.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/crud/field/choice.html.twig");
+", "@EasyAdmin/crud/field/choice.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/crud/field/choice.html.twig");
     }
 }

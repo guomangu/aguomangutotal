@@ -112,6 +112,6 @@ class __TwigTemplate_c72f5afbf8119da6bc83f0beafc98caa extends Template
         {{ render_as_html ? field.formattedValue|raw : field.formattedValue|striptags }}
     </span>
 {% endif %}
-", "@EasyAdmin/crud/field/textarea.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/crud/field/textarea.html.twig");
+", "@EasyAdmin/crud/field/textarea.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/crud/field/textarea.html.twig");
     }
 }

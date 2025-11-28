@@ -485,6 +485,6 @@ class __TwigTemplate_e818e0511a8ae7bbaed5813650186d7d extends Template
         {{ include('@EasyAdmin/crud/includes/_delete_form.html.twig', {entity_id: entity.primaryKeyValue}, with_context: false) }}
     {% endblock delete_form %}
 {% endblock %}
-", "@EasyAdmin/crud/edit.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/crud/edit.html.twig");
+", "@EasyAdmin/crud/edit.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/crud/edit.html.twig");
     }
 }

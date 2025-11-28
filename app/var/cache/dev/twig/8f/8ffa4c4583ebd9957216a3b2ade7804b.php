@@ -78,6 +78,6 @@ class __TwigTemplate_b8667cfd2ba747b65b488eaf7a475320 extends Template
     public function getSourceContext(): Source
     {
         return new Source("{{ this.getFlagAsSvg|raw }}
-", "@EasyAdmin/components/Flag.html.twig", "/home/guillaume/Bureau/aguomangu/app/vendor/easycorp/easyadmin-bundle/templates/components/Flag.html.twig");
+", "@EasyAdmin/components/Flag.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/vendor/easycorp/easyadmin-bundle/templates/components/Flag.html.twig");
     }
 }

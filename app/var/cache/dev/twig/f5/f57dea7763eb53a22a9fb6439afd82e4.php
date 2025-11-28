@@ -720,7 +720,7 @@ class __TwigTemplate_e39aa4476cacce4d8fff039742822627 extends Template
             calendar.render();
         });
     </script>
-{% endblock %}", "wiki/index.html.twig", "/home/guillaume/Bureau/aguomangu/app/templates/wiki/index.html.twig");
+{% endblock %}", "wiki/index.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/templates/wiki/index.html.twig");
     }
 }
 
@@ -2204,6 +2204,6 @@ $context["tag"], "type", [], "any", false, false, false, 225) == "custom")) {
             calendar.render();
         });
     </script>
-{% endblock %}", "wiki/index.html.twig", "/home/guillaume/Bureau/aguomangu/app/templates/wiki/index.html.twig");
+{% endblock %}", "wiki/index.html.twig", "/home/guillaume/Bureau/atest/aguomangu2/app/templates/wiki/index.html.twig");
     }
 }
