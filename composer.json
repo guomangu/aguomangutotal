@@ -1,0 +1,17 @@
+
+
+
+{
+    "name": "aguomangu/app",
+    "description": "Application Symfony",
+    "type": "project",
+    "require": {
+        "php": ">=8.2"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "./frankenphp-linux-x86_64 php-cli app/bin/console tailwind:build --watch -v",
+            "./frankenphp-linux-x86_64 php-server --listen :8000 -r app/public/"
+        ]
+    }
+}
